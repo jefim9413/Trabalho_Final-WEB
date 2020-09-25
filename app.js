@@ -4,17 +4,20 @@ const handlebars = require('express-handlebars')
 const bodyPerser = require("body-parser")
 const admin = require("./routes/admin")
 const app = express()
+const path = require('path')
 
 //const mongoose = require("mongoose")
 
 //Configarações
     //bodyParser 
-    app.use(bodyPerser.urlencoded({extended: true}))
-    app.use(bodyPerser.json())
+        app.use(bodyPerser.urlencoded({extended: true}))
+        app.use(bodyPerser.json())
     //Handlebars
-    app.engine('habdlebars',handlebars({defaultLayout: 'main'}))
-    app.set('view engine','handlebers');
-
+  
+app.engine('handlebars', handlebars({extname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + "/views/layouts"}));
+app.set('view engine', 'handlebars')
+    //public
+        app.use(express.static(path.join(__dirname ,"public")))
 //Rotas
     app.use('/admin',admin)
 //Outros
