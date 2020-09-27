@@ -60,9 +60,26 @@ router.get('/categoria/edit/:id',(req,res) =>{
 })
 
 router.post('/categoria/edit',(req,res)=>{
+    var erros = []
+    
+    if(!req.body.nome||typeof req.body.nome == undefined ||req.body.nome == null){
+        erros.push({texto: "Nome Inválido"})
+    }
+    if(!req.body.slug||typeof req.body.slug == undefined ||req.body.slug == null){
+        erros.push({texto: "Slug Inválido"})
+    }
+    if(req.body.nome.length < 2){
+        erros.push({texto: "Nome da Categoria é Muito Pequena " })
+    }
+    if(erros.length > 0 ){
+        res.render("admin/addcategoria",{erros : erros})
+    }else{    
+        
     Categoria.findOne({_id:req.body.id}).then((categoria) =>{
-        categoria.Nome = req.body.name
-        categoria.Slug = req.body.slug
+        var slug = req.body.slug
+        var nome = req.body.nome
+        categoria.Nome = nome
+        categoria.Slug = slug
 
         categoria.save().then(()=>{
             req.flash("success_msg", "Categoria Editada com Sucesso")
@@ -75,6 +92,7 @@ router.post('/categoria/edit',(req,res)=>{
         req.flash("error_msg","Houve um Erro ao Editar a Categoria!")
         res.redirect("/admin/categoria")
     })
+}
 })
 
 router.get('/categoria/add',(req,res) =>{
