@@ -11,7 +11,7 @@
         <small>Categoria: {{Categoria.Nome}}</small>
         <br>
         <a href="/admin/postagens/edit/{{_id}}"><button class="btn btn-success mt-4">Editar</button></a>
-        <form action="/admin/categoria/delete" method="POST">
+        <form action="/admin/postagens/delete" method="POST">
             <input type="hidden" name="id" value="{{_id}}">
             <button type="submit" class="btn btn-danger mt-2">Deletar</button>
         </form>

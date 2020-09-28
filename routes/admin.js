@@ -134,6 +134,21 @@ router.get("/postagens/edit/:id",(req,res)=>{
 })
 
 router.post("/postagens/edit",(req,res)=>{
+    var erros = []
+    
+    if(!req.body.nome||typeof req.body.nome == undefined ||req.body.nome == null){
+        erros.push({texto: "Nome Inválido"})
+    }
+    if(!req.body.slug||typeof req.body.slug == undefined ||req.body.slug == null){
+        erros.push({texto: "Slug Inválido"})
+    }
+    if(req.body.nome.length < 2){
+        erros.push({texto: "Nome da Categoria é Muito Pequena " })
+    }
+    if(erros.length > 0 ){
+        res.render("admin/addcategoria",{erros : erros})
+    }else{    
+    
     Postagens.findOne({_id:req.body.id}).then((postagem) =>{
         postagem.Titulo  = req.body.titulo
         postagem.Slug  = req.body.slug
@@ -149,6 +164,17 @@ router.post("/postagens/edit",(req,res)=>{
         })
     }).catch((err) =>{
         req.flash("error_msg","Houve um Erro ao Editar a Postagem!")
+        res.redirect("/admin/postagens")
+    })
+}
+})
+
+router.post('/postagens/delete',(req,res)=>{
+    Postagens.deleteOne({_id:req.body.id}).then(() =>{
+        req.flash("success_msg","Postagem Deletada Com Sucesso")
+        res.redirect("/admin/postagens")
+    }).catch((err)=>{
+        req.flash("error_msg","Erro Ao Deletar Postagem")
         res.redirect("/admin/postagens")
     })
 })
