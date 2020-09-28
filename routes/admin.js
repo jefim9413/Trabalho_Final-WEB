@@ -108,10 +108,50 @@ router.post('/categoria/delete',(req,res)=>{
     })
 })
 
-router.get("/postagens",(req,res)=>{
-    res.render("admin/postagens")
+router.get('/postagens', (req, res) => {
+    
+    Postagens.find().populate("Categoria").sort({Data: 'desc'}).then((postagens) => {
+        res.render('./admin/postagens', {postagens: postagens.map(postagens => postagens.toJSON())})
+    }).catch((error) => {
+        console.log('houve um erro ao listar as categorias ' + erro)
+        res.redirect('/admin')
+    })
 })
 
+router.get("/postagens/edit/:id",(req,res)=>{
+    Postagens.findOne({_id:req.params.id}).lean().then((postagens)=>{
+        Categoria.find().lean().then((categoria)=>{
+            res.render('admin/editpostagens', {categoria:categoria,postagens:postagens})
+        }).catch((err) =>{
+            req.flash("error_msg","erro ao carregar dados da postagem")
+            res.redirect("/admin/postagens")
+       })
+        
+    }).catch((err) =>{
+         req.flash("error_msg","Esta postagem não existe")
+         res.redirect("/admin/postagens")
+    })
+})
+
+router.post("/postagens/edit",(req,res)=>{
+    Postagens.findOne({_id:req.body.id}).then((postagem) =>{
+        postagem.Titulo  = req.body.titulo
+        postagem.Slug  = req.body.slug
+        postagem.Descricao  = req.body.descricao
+        postagem.Conteudo  = req.body.conteudo
+        postagem.Categoria  = req.body.categoria
+        postagem.save().then(()=>{
+            req.flash("success_msg", "Postagem Editada com Sucesso")
+            res.redirect("/admin/postagens")
+        }).catch((err) =>{
+            req.flash("error_msg","Houve um Erro ao salvar a Edição da Postagem !")
+            res.redirect("/admin/postagens")
+        })
+    }).catch((err) =>{
+        req.flash("error_msg","Houve um Erro ao Editar a Postagem!")
+        res.redirect("/admin/postagens")
+    })
+})
 
 router.get('/postagens/add',(req,res)=>{
     Categoria.find().lean().then((categorias)=>{
