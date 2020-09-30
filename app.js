@@ -74,6 +74,24 @@ const Categoria = mongoose.model("categorias")
         })
     })
 
+    app.get("/categoria/:slug",(req,res)=>{
+        Categoria.findOne({Slug: req.params.slug}).lean().then((categoria)=>{
+            if(categoria){
+                Postagens.find({Categoria:categoria._id}).lean().then((postagens)=>{
+                    res.render("categorias/postagens",{postagens:postagens,categoria:categoria})
+                }).catch((err)=>{
+                    req.flash("erro_msg","Houve um erro ao lista as postagens")
+                })
+            }else{
+                req.flash("error_msg","Esta categoria Não Existe")
+                res.redirect("/")
+            }
+        }).catch((err)=>{
+            req.flash("error_msg","Houve um Erro Interno Ao Carregar Categoria")
+            res.redirect("/")
+        })
+    })
+
     app.get("/404",(req,res)=>{
         res.send("Erro 404")
     })

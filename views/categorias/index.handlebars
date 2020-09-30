@@ -1,8 +1,13 @@
-<h4>Categoria: </h4>
-{{#each categoria}}
 
-    <h4>{{Nome}}</h4>    
+<div class="card mt-4">
+    <div class="card-body">
+        <h4>Categoria: </h4>
+        {{#each categoria}}
 
-{{else}}
+            <a href="/categoria/{{Slug}}"> <h4>{{Nome}}</h4></a>    
 
-{{/each}}
+        {{else}}
+
+        {{/each}}
+    </div>
+</div>
