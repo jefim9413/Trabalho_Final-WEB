@@ -9,9 +9,9 @@
         <form action="/admin/categoria/edit" method="POST">
         <input type="hidden" name="id" value="{{categoria._id}}">
             <label for="nome">Nome: </label>
-                <input type="text" id="nome" name="nome" placeholder="Nome da Categoria" class="form-control" value="{{categoria.Nome}}">
+                <input type="text" id="nome" name="nome" placeholder="Nome da Categoria" class="form-control" value="{{categoria.Nome}}" required>
             <label for="slug">Slug: </label>
-                <input type="text" id="slug" name="slug" placeholder="Slug da Categoria" class="form-control" value="{{categoria.Slug}}">
+                <input type="text" id="slug" name="slug" placeholder="Slug da Categoria" class="form-control" value="{{categoria.Slug}}" required>
             <br>
             <button type="submit" class="btn btn-success ">Editar Categoria</button>
         </form>

@@ -58,25 +58,9 @@ router.get('/categoria/edit/:id',(req,res) =>{
          req.flash("error_msg","Está Categoria não existe")
          res.redirect("/admin/categoria")
     })
-    
 })
 
 router.post('/categoria/edit',(req,res)=>{
-    var erros = []
-    
-    if(!req.body.nome||typeof req.body.nome == undefined ||req.body.nome == null){
-        erros.push({texto: "Nome Inválido"})
-    }
-    if(!req.body.slug||typeof req.body.slug == undefined ||req.body.slug == null){
-        erros.push({texto: "Slug Inválido"})
-    }
-    if(req.body.nome.length < 2){
-        erros.push({texto: "Nome da Categoria é Muito Pequena " })
-    }
-    if(erros.length > 0 ){
-        res.render("admin/addcategoria",{erros : erros})
-    }else{    
-        
     Categoria.findOne({_id:req.body.id}).then((categoria) =>{
         var slug = req.body.slug
         var nome = req.body.nome
@@ -94,7 +78,6 @@ router.post('/categoria/edit',(req,res)=>{
         req.flash("error_msg","Houve um Erro ao Editar a Categoria!")
         res.redirect("/admin/categoria")
     })
-}
 })
 
 router.post('/categoria/delete',(req,res)=>{
@@ -134,21 +117,6 @@ router.get("/postagens/edit/:id",(req,res)=>{
 })
 
 router.post("/postagens/edit",(req,res)=>{
-    var erros = []
-    
-    if(!req.body.nome||typeof req.body.nome == undefined ||req.body.nome == null){
-        erros.push({texto: "Nome Inválido"})
-    }
-    if(!req.body.slug||typeof req.body.slug == undefined ||req.body.slug == null){
-        erros.push({texto: "Slug Inválido"})
-    }
-    if(req.body.nome.length < 2){
-        erros.push({texto: "Nome da Categoria é Muito Pequena " })
-    }
-    if(erros.length > 0 ){
-        res.render("admin/addcategoria",{erros : erros})
-    }else{    
-    
     Postagens.findOne({_id:req.body.id}).then((postagem) =>{
         postagem.Titulo  = req.body.titulo
         postagem.Slug  = req.body.slug
@@ -166,7 +134,7 @@ router.post("/postagens/edit",(req,res)=>{
         req.flash("error_msg","Houve um Erro ao Editar a Postagem!")
         res.redirect("/admin/postagens")
     })
-}
+
 })
 
 router.post('/postagens/delete',(req,res)=>{
@@ -180,11 +148,13 @@ router.post('/postagens/delete',(req,res)=>{
 })
 
 router.get('/postagens/add',(req,res)=>{
+
+
     Categoria.find().lean().then((categorias)=>{
         res.render("admin/addpostagem",{categorias: categorias})
     }).catch((err)=>{
         req.flash("error_msg", "Houve um erro ao carregar o Formulário")
-        res.redirect("/admin")
+        res.redirect("/admin/postagens")
     })
 })
 

@@ -38,6 +38,10 @@ const flash = require ("connect-flash")
     //Public
         app.use(express.static(path.join(__dirname ,"public")))
 //Rotas
+    app.get("/",(req,res)=>{
+        res.render("index")
+    }) 
+
     app.use('/admin',admin)
 //Outros
 const PORT = 8081
