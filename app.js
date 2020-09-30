@@ -9,7 +9,9 @@ const mongoose = require("mongoose")
 const session = require("express-session")
 const flash = require ("connect-flash")
 require("./models/postagem")
+require("./models/categoria")
 const Postagens = mongoose.model("postagens") 
+const Categoria = mongoose.model("categorias")
 //Configarações
     //Sessão
         app.use(session({
@@ -48,6 +50,29 @@ const Postagens = mongoose.model("postagens")
             res.redirect("/404")
         })
     }) 
+
+    app.get("/postagem/:slug",(req,res)=>{
+        Postagens.findOne({Slug:req.params.slug}).lean().then((postagens)=>{
+            if(postagens){
+                 res.render("postagem/index",{postagens:postagens})
+            }else{
+                req.flash("error_msg","Essa postagem não existe")
+                res.redirect("/")
+            }
+        }).catch((err)=>{
+            req.flash("error_msg","Houve um erro interno")
+            res.redirect("/")
+        })
+    })
+
+    app.get("/categorias",(req,res)=>{
+        Categoria.find().lean().then((categoria)=>{
+            res.render("categorias/index",{categoria:categoria})
+        }).catch((err)=>{
+            req.flash("error_msg","Houve Um Erro Interno Ao Listar Categorias")
+            res.redirect('/')
+        })
+    })
 
     app.get("/404",(req,res)=>{
         res.send("Erro 404")
