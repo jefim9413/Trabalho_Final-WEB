@@ -15,6 +15,7 @@ const Categoria = mongoose.model("categorias")
 const usuario = require("./routes/usuario")
 const passport = require("passport")
 require("./config/auth")(passport)
+const db = require("./config/db")
 
 //Configarações
     //Sessão
@@ -41,7 +42,7 @@ require("./config/auth")(passport)
         app.engine('handlebars', handlebars({extname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + "/views/layouts"}));
         app.set('view engine', 'handlebars')
     //Mongoose
-        mongoose.connect("mongodb://localhost/TRABALHO_FINAL", {useNewUrlParser: true, useUnifiedTopology: true}).then(() =>{
+        mongoose.connect(db.mongoURI, {useNewUrlParser: true, useUnifiedTopology: true}).then(() =>{
             console.log("Conectado com sucesso!")
         }).catch((err) =>{
             mongoose.Promise = global.Promise;
@@ -108,7 +109,7 @@ require("./config/auth")(passport)
 
     app.use('/admin',admin)
 //Outros
-const PORT = 8081
+const PORT = process.env.PORT||8081
 app.listen(PORT,()=>{
     console.log("Servidor Rodando! ")
 })

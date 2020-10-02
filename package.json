@@ -1,0 +1,33 @@
+{
+  "name": "trabalho-final",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000T\u0000r\u0000a\u0000b\u0000a\u0000l\u0000h\u0000o\u0000_\u0000F\u0000i\u0000n\u0000a\u0000l\u0000-\u0000W\u0000E\u0000B\u0000\r\u0000 \u0000",
+  "main": "app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "express-session": "^1.17.1",
+    "handlebars": "^4.5.3",
+    "mongoose": "^5.10.6",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jefim9413/Trabalho_Final-WEB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jefim9413/Trabalho_Final-WEB/issues"
+  },
+  "homepage": "https://github.com/jefim9413/Trabalho_Final-WEB#readme"
+}
