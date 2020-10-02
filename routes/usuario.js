@@ -41,7 +41,6 @@ router.post("/registro", (req,res)=>{
                      Senha: req.body.senha
                  })
                  
-                 
                  bcrypt.genSalt(10,(erro,salt)=>{
                      bcrypt.hash(novoUsuario.Senha,salt,(erro,hash)=>{
                          if(erro){
