@@ -13,11 +13,12 @@
         <a class="nav-link" href="/categorias">Categorias</a>
       </li>
       {{#if user}}
-        {{#if user}}
+        {{#if user.eAdmin}}
           <li class="nav-item">
           <a class="nav-link" href="/admin">Painel Admin</a>
         </li>
         {{else}}
+        
         {{/if}}
         <li class="nav-item">
           <a class="nav-link" href="/usuarios/logout">Sair</a>

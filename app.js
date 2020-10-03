@@ -42,7 +42,7 @@ const db = require("./config/db")
         app.engine('handlebars', handlebars({extname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + "/views/layouts"}));
         app.set('view engine', 'handlebars')
     //Mongoose
-        mongoose.connect(db.mongoURI, {useNewUrlParser: true, useUnifiedTopology: true}).then(() =>{
+        mongoose.connect("mongodb+srv://jefim9413:jefim1235@cluster0.5lxq6.gcp.mongodb.net/test", {useNewUrlParser: true, useUnifiedTopology: true}).then(() =>{
             console.log("Conectado com sucesso!")
         }).catch((err) =>{
             mongoose.Promise = global.Promise;

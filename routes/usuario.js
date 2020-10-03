@@ -30,39 +30,90 @@ router.post("/registro", (req,res)=>{
     if(erros.length > 0){
         res.render("usuario/registro",{erros})
     }else{
-        Usuarios.findOne({Email: req.body.email}).lean().then((usuario)=>{
-            if(usuario){
-                req.flash("error_msg","Já Existem Uma conta com Esse Email Em Nosso Sistema")
-                res.redirect("/usuarios/registro")
-            }else{
-                 const novoUsuario = new Usuarios({
-                     Nome: req.body.nome,
-                     Email: req.body.email,
-                     Senha: req.body.senha
-                 })
-                 
-                 bcrypt.genSalt(10,(erro,salt)=>{
-                     bcrypt.hash(novoUsuario.Senha,salt,(erro,hash)=>{
-                         if(erro){
-                             req.flash("error_msg","Houve Um erro durante o salvamento")
-                             res.redirect("/")
-                         }
-                         novoUsuario.Senha = hash
-                         
-                         novoUsuario.save().then(()=>{
-                            req.flash("success_msg","Usuario Criado Com Sucesso!")
-                            res.redirect("/")
-                         }).catch((err)=>{
-                             req.flash("erro_msg","Houve Um Erro Ao Criar um Usuario")
-                             res.redirect("/usuario/registro")
+        Usuarios.find().lean().then((usuarios)=>{
+            console.log("s")
+            if(usuarios.length > 0 ){
+                Usuarios.findOne({Email: req.body.email}).lean().then((usuario)=>{
+                    if(usuario){
+                        req.flash("error_msg","Já Existem Uma conta com Esse Email Em Nosso Sistema")
+                        res.redirect("/usuarios/registro")
+                    }else{
+                         const novoUsuario = new Usuarios({
+                             Nome: req.body.nome,
+                             Email: req.body.email,
+                             Senha: req.body.senha
                          })
-                     })
-                 })
+                         
+                         bcrypt.genSalt(10,(erro,salt)=>{
+                             bcrypt.hash(novoUsuario.Senha,salt,(erro,hash)=>{
+                                 if(erro){
+                                     req.flash("error_msg","Houve Um erro durante o salvamento")
+                                     res.redirect("/")
+                                 }
+                                 novoUsuario.Senha = hash
+                                 
+                                 novoUsuario.save().then(()=>{
+                                    req.flash("success_msg","Usuario Criado Com Sucesso!")
+                                    res.redirect("/")
+                                 }).catch((err)=>{
+                                     req.flash("erro_msg","Houve Um Erro Ao Criar um Usuario")
+                                     res.redirect("/usuario/registro")
+                                 })
+                             })
+                         })
+                    }
+                }).catch((err)=>{
+                    req.flash("error_msg","Houve Um erro Interno")
+                    res.redirect("/")
+                })
+            }else{
+                console.log("ss")
+                Usuarios.findOne({Email: req.body.email}).lean().then((usuario)=>{
+                    if(usuario){
+                        req.flash("error_msg","Já Existem Uma conta com Esse Email Em Nosso Sistema")
+                        res.redirect("/usuarios/registro")
+                    }else{
+                         const novoUsuario = new Usuarios({
+                             Nome: req.body.nome,
+                             Email: req.body.email,
+                             eAdmin: true,
+                             Senha: req.body.senha
+                         })
+                         console.log(novoUsuario.eAdmin)
+                         bcrypt.genSalt(10,(erro,salt)=>{
+                             bcrypt.hash(novoUsuario.Senha,salt,(erro,hash)=>{
+                                 if(erro){
+                                     req.flash("error_msg","Houve Um erro durante o salvamento")
+                                     res.redirect("/")
+                                 }
+                                 novoUsuario.Senha = hash
+                                 
+                                 novoUsuario.save().then(()=>{
+                                    req.flash("success_msg","Usuario Criado Com Sucesso!")
+                                    res.redirect("/")
+                                 }).catch((err)=>{
+                                     req.flash("erro_msg","Houve Um Erro Ao Criar um Usuario")
+                                     res.redirect("/usuario/registro")
+                                 })
+                             })
+                         })
+                    }
+                }).catch((err)=>{
+                    req.flash("error_msg","Houve Um erro Interno")
+                    res.redirect("/")
+                })
+
             }
+
+
+
         }).catch((err)=>{
             req.flash("error_msg","Houve Um erro Interno")
             res.redirect("/")
         })
+            
+
+        
     }
 })
 
