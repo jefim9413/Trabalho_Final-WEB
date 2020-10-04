@@ -8,19 +8,44 @@
 <a  href="/admin/postagens/add"><button class="btn btn-success">nova postagem </button></a>
 
 {{#each postagens}}
+
+
+<div class="card mb-3">
+  <img src="/img/cfghjnb.png" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{Titulo}}</h5>
+    <p class="card-text">{{Descricao}}</p>
+    <p class="card-text"><small class="text-muted">{{Data}}</small></p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"></h5>
+    <p class="card-text"></p>
+    <p class="card-text"><small class="text-muted"></small></p>
+  </div>
+  <img src="..." class="card-img-bottom" alt="...">
+</div>
+
+
 <div class="card mt-4 ">
-    <div class="card-body">       
-        <h4> {{Titulo}}</h4>
-        <p>Descrição: {{Descricao}}</p>
-        <small>Data: {{Data}}</small><br>
-        <small>Categoria: {{Categoria.Nome}}</small>
+    <div class="card-body">
+               
+        <h4> </h4>
+        <p>Descrição: </p>
         <br>
         <a href="/admin/postagens/edit/{{_id}}"><button class="btn btn-success mt-4">Editar</button></a>
         <form action="/admin/postagens/delete" method="POST">
             <input type="hidden" name="id" value="{{_id}}">
             <button type="submit" class="btn btn-danger mt-2">Deletar</button>
         </form>
+        {{#if Imagem}}
+        
+        {{else}}
+        <a href="/admin/postagens/addimg/{{_id}}"> <button class="btn btn-success mt-2">Adicionar Imagem</button></a>
     
+        {{/if}}
+        
     </div>
 </div>
 {{else}}    

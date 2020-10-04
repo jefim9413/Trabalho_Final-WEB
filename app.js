@@ -48,8 +48,11 @@ const db = require("./config/db")
             mongoose.Promise = global.Promise;
             console.log("Erro ao conectar: " + err)
         })
+    //Multer
+        app.set()    
     //Public
         app.use(express.static(path.join(__dirname ,"public")))
+        app.use(express.static('views/img'))
 //Rotas
     app.get("/",(req,res)=>{
         Postagens.find().lean().populate("Categoria").sort({Data: "desc"}).then((postagens)=>{

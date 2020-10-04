@@ -6,10 +6,39 @@ const Categoria = mongoose.model("categorias")
 require("../models/postagem")
 const Postagens = mongoose.model("postagens") 
 const {eAdmin} = require("../config/eAdmin")
+const multer = require("multer")
 
+const storage = multer.diskStorage({
+    destination: function(req,res,cb){
+        cb(null,"public/img")
+    },
+    filename: function(req,file,cb){
+        cb(null,req.params.id+".png")
+    }
+})
+const upload = multer({storage})
+
+
+router.post("/upload/:id",eAdmin,upload.single("arquivo"),(req,res)=>{
+    Postagens.findOne({_id:req.body.id}).then((postagem) =>{
+        postagem.Imagem = true
+        console.log(postagem)
+        postagem.save().then(()=>{
+            req.flash("success_msg", "Postagem Editada com Sucesso")
+            res.redirect("/admin/postagens")
+        }).catch((err) =>{
+            req.flash("error_msg","Houve um Erro ao salvar a Edição da Postagem !")
+            res.redirect("/admin/postagens")
+        })
+    }).catch((err) =>{
+        req.flash("error_msg","Houve um Erro ao Editar a Postagem!")
+        res.redirect("/admin/postagens")
+    })
+
+})
 
 router.get('/',eAdmin,(req, res) => {
-    res.render('admin/index');
+   res.send("sdfghgfdfgfg")
 });
 
 router.get('/categoria',eAdmin, (req, res) => {
@@ -91,13 +120,21 @@ router.post('/categoria/delete',eAdmin,(req,res)=>{
     })
 })
 
-router.get('/postagens',eAdmin, (req, res) => {
-    
+router.get('/postagens',eAdmin, (req, res) => { 
     Postagens.find().populate("Categoria").sort({Data: 'desc'}).then((postagens) => {
         res.render('./admin/postagens', {postagens: postagens.map(postagens => postagens.toJSON())})
     }).catch((error) => {
         console.log('houve um erro ao listar as categorias ' + erro)
         res.redirect('/admin')
+    })
+})
+
+router.get("/postagens/addimg/:id",eAdmin,(req,res)=>{
+    Postagens.findOne({_id:req.params.id}).lean().then((postagens)=>{
+            res.render('admin/addimagem', {postagens:postagens})
+    }).catch((err) =>{
+         req.flash("error_msg","Esta postagem não existe")
+         res.redirect("/admin/postagens")
     })
 })
 

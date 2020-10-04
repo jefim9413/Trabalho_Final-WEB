@@ -23,6 +23,10 @@ const Postagem = new Schema({
         ref: "categorias",
         required: true
     },
+    Imagem: {
+        type: Boolean,
+        default: false,
+    },
     Data:{
         type: Date,
         default: Date.now()
