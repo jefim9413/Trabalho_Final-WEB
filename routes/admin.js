@@ -9,11 +9,25 @@ const {eAdmin} = require("../config/eAdmin")
 const multer = require("multer")
 
 const storage = multer.diskStorage({
+
     destination: function(req,res,cb){
         cb(null,"public/img")
     },
     filename: function(req,file,cb){
-        cb(null,req.params.id+".png")
+        Postagens.findOne({_id:req.body.id}).then((postagem) =>{
+            if(!postagem.Img1){   
+                cb(null,req.params.id+"1.png")
+            }else if(!postagem.Img2){
+                cb(null,req.params.id+"2.png")
+            }else{
+                cb(null,req.params.id+"3.png")
+            }  
+        }).catch((err) =>{
+            req.flash("error_msg","Houve um Erro ao Editar a Postagem!")            
+        })
+        
+        
+        
     }
 })
 const upload = multer({storage})
@@ -21,10 +35,15 @@ const upload = multer({storage})
 
 router.post("/upload/:id",eAdmin,upload.single("arquivo"),(req,res)=>{
     Postagens.findOne({_id:req.body.id}).then((postagem) =>{
-        postagem.Imagem = true
-        console.log(postagem)
+        if(!postagem.Img1){
+            postagem.Img1 = true
+        }else if(!postagem.Img2){
+            postagem.Img2 = true
+        }else{
+            postagem.Img3 = true
+        }
         postagem.save().then(()=>{
-            req.flash("success_msg", "Postagem Editada com Sucesso")
+            req.flash("success_msg", "Imagem Adicionada com Sucesso")
             res.redirect("/admin/postagens")
         }).catch((err) =>{
             req.flash("error_msg","Houve um Erro ao salvar a Edição da Postagem !")

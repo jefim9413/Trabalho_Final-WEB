@@ -2,9 +2,10 @@
 <div class="alert alert-danger">{{texto}}</div> 
 {{else}}   
 {{/each}}
+
+<h4>Editar Postagem: </h4>
 <div class="card">
     <div class="card-body">
-        <h4>Editar Postagem: </h4>
         <form action="/admin/postagens/edit" method="POST">
             <input type="hidden" name="id" value="{{postagens._id}}">
             <label for="titulo">Titulo:</label>
@@ -23,7 +24,7 @@
                         <option value="0"> Nenhuma Categoria Registrada</option>
                     {{/each}}
                 </select>
-            <button class="btn btn-success mt-4" type="submit"> Editar P ostagem </button>
+            <button class="btn btn-outline-success mt-2" type="submit"> Editar Postagem </button>
         </form>
     </div>
 </div>

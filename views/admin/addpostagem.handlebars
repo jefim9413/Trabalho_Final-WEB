@@ -2,6 +2,8 @@
 <div class="alert alert-danger">{{texto}}</div> 
 {{else}}   
 {{/each}}
+
+<h1>Nova Postagem: </h1>
 <div class="card">
     <div class="card-body">
         <form action="/admin/postagens/nova" method="POST">
@@ -21,7 +23,7 @@
                         <option value="0"> Nenhuma Categoria Registrada</option>
                     {{/each}}
                 </select>
-            <button class="btn btn-success mt-4" type="submit"> Criar Postagem </button>
+            <button class="btn btn-outline-success mt-2" type="submit"> Criar Postagem </button>
         </form>
     </div>
 </div>

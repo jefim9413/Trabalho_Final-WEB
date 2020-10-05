@@ -1,13 +1,13 @@
 
 <div class="card mt-4">
     <div class="card-body">
-        <h4>Categoria: </h4>
+        <h4>Categorias: </h4>
+    
+        <div class="list-group mt-4">
         {{#each categoria}}
-
-            <a href="/categoria/{{Slug}}"> <h4>{{Nome}}</h4></a>    
-
-        {{else}}
-
+            <a href="/categoria/{{Slug}}" class="list-group-item list-group-item-action mt-2">{{Nome}}</a>
+        {{else}}    
         {{/each}}
+        </div>
     </div>
 </div>

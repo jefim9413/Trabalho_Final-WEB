@@ -5,49 +5,81 @@
 {{/each}}
 <h2>Lista de Postagens: </h2>
 <hr>
-<a  href="/admin/postagens/add"><button class="btn btn-success">nova postagem </button></a>
-
+<a  href="/admin/postagens/add"><button class="btn btn-outline-success mt-2">Adicionar Nova Postagem </button></a>
+<hr>
 {{#each postagens}}
 
 
-<div class="card mb-3">
-  <img src="/img/{{Titulo}}.png" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">{{Titulo}}</h5>
-    <p class="card-text">{{Descricao}}</p>
-    <p class="card-text"><small class="text-muted">{{Data}}</small></p>
-  </div>
-</div>
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title"></h5>
-    <p class="card-text"></p>
-    <p class="card-text"><small class="text-muted"></small></p>
-  </div>
-  <img src="..." class="card-img-bottom" alt="...">
-</div>
+<div class="card mt-4" style="width: 69.5rem;">
+  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/img/{{Titulo}}1.png" class="d-block w-100" data-interval="10000" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>{{Titulo}}</h5>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="/img/{{Titulo}}2.png" class="d-block w-100" data-interval="2000" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="/img/{{Titulo}}3.png" class="d-block w-100" data-interval="2000"  alt="...">
+        <div class="carousel-caption d-none d-md-block">
 
-
-<div class="card mt-4 ">
-    <div class="card-body">
-               
-        <h4> </h4>
-        <p>Descrição: </p>
-        <br>
-        <a href="/admin/postagens/edit/{{_id}}"><button class="btn btn-success mt-4">Editar</button></a>
-        <form action="/admin/postagens/delete" method="POST">
-            <input type="hidden" name="id" value="{{_id}}">
-            <button type="submit" class="btn btn-danger mt-2">Deletar</button>
-        </form>
-        {{#if Imagem}}
-        
-        {{else}}
-        <a href="/admin/postagens/addimg/{{_id}}"> <button class="btn btn-success mt-2">Adicionar Imagem</button></a>
-    
-        {{/if}}
-        
+        </div>
+      </div>
     </div>
-</div>
+    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h1>{{Titulo}}</h1>
+      <h4>{{Descricao}}</h4>
+      <hr>
+      <Small>{{Categoria.Nome}}</Small><br>
+      <small>{{Data}}</small><br>
+      
+
+      <a href="/admin/postagens/edit/{{_id}}"><button class="btn btn-outline-success mt-2">Editar</button></a>
+        {{#if Img1}}
+          {{#if Img2}}
+            {{#if Img3}}
+              {{else}}
+              <a href="/admin/postagens/addimg/{{_id}}"><button type="button" class="btn btn-outline-success mx-2 mt-2">Adicionar Imagem</button></a>
+            {{/if}}
+          {{else}}
+          <a href="/admin/postagens/addimg/{{_id}}"><button type="button" class="btn btn-outline-success mx-2 mt-2">Adicionar Imagem</button></a>
+          {{/if}}
+        {{else}}
+        <a href="/admin/postagens/addimg/{{_id}}"><button type="button" class="btn btn-outline-success mx-2 mt-2">Adicionar Imagem</button></a>
+        {{/if}}
+        <form action="/admin/postagens/delete" method="POST"> 
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit" class="btn btn-outline-danger mt-2">Deletar</button>
+        </form>
+ 
+      </div>
+    </div>
+  </div>
+
+
+
 {{else}}    
 <h3 class="mt-3">Nenhuma Postagem Registrada </h3>
+<hr>
 {{/each}}

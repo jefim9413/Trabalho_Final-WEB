@@ -23,7 +23,17 @@ const Postagem = new Schema({
         ref: "categorias",
         required: true
     },
-    Imagem: {
+    Img1: {
+        type: Boolean,
+        default: false,
+    },
+    
+    Img2: {
+        type: Boolean,
+        default: false,
+    },
+    
+    Img3: {
         type: Boolean,
         default: false,
     },

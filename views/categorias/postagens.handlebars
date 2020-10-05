@@ -1,10 +1,10 @@
-<h1>{{categoria.Nome}}</h1>
+<h1>{{categoria.Nome}}:</h1>
 {{#each postagens}}
     <div class="card mt-4">
         <div class="card-body">
-            <h3>{{Titulo}}</h3>
+            <h3>{{Titulo}} </h3>
             <p>{{Descricao}}</p>
-            <a href="/postagem/{{Slug}}"><button class="btn btn-success">Leia Mais</button></a>
+            <a href="/postagem/{{Slug}}"><button class="btn btn-outline-success mt-2">Leia Mais</button></a>
             <hr>
             <small>data de Publicação: {{Data}}</small>
         </div>
