@@ -38,7 +38,7 @@ router.post("/upload/:id",eAdmin,upload.single("arquivo"),(req,res)=>{
 })
 
 router.get('/',eAdmin,(req, res) => {
-   res.send("sdfghgfdfgfg")
+   res.render("admin/index")
 });
 
 router.get('/categoria',eAdmin, (req, res) => {
