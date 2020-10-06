@@ -5,6 +5,8 @@ require("../models/categoria")
 const Categoria = mongoose.model("categorias")
 require("../models/postagem")
 const Postagens = mongoose.model("postagens") 
+require("../models/raridade")
+const Raridade = mongoose.model("raridade")
 const {eAdmin} = require("../config/eAdmin")
 const multer = require("multer")
 
@@ -60,11 +62,40 @@ router.get('/',eAdmin,(req, res) => {
    res.render("admin/index")
 });
 
+router.get("/raridade",eAdmin,(req,res)=>{
+    Raridade.find().sort({Data: 'desc'}).lean().then((raridades) => {
+        res.render('./admin/raridade',{raridades: raridades})
+    }).catch((error)=>{
+        console.log('houve um erro ao listar as Raridade ' + erro)
+        res.redirect('/admin')
+    })
+})
+
+router.get('/raridade/add',eAdmin,(req,res)=>{
+    res.render("admin/addraridade")
+})
+
+router.post("/raridade/nova",eAdmin,(req,res)=>{
+    
+    
+    
+    const nova_raridade = {
+        Nome: req.body.nome
+    }
+    new Raridade(nova_raridade).save().then(()=>{
+        req.flash("success_msg","Raridade Criada Com Sucesso !")
+        res.redirect("/admin/raridade")
+    }).catch((err) =>{
+        req.flash("error_msg","Houve um Erro ao Salvar, Tente Novamente!")
+        res.redirect("/admin/raridade")
+    })
+})
+
 router.get('/categoria',eAdmin, (req, res) => {
     Categoria.find().sort({Data: 'desc'}).then((categoria) => {
         res.render('./admin/categorias', {categorias: categoria.map(Categoria => Categoria.toJSON())})
     }).catch((error) => {
-        console.log('houve um erro ao listar as categorias ' + erro)
+        console.log('houve um erro ao listar as Categorias ' + erro)
         res.redirect('/admin')
     })
 })
@@ -140,7 +171,7 @@ router.post('/categoria/delete',eAdmin,(req,res)=>{
 })
 
 router.get('/postagens',eAdmin, (req, res) => { 
-    Postagens.find().populate("Categoria").sort({Data: 'desc'}).then((postagens) => {
+    Postagens.find().populate("Categoria").populate("Raridade").sort({Data: 'desc'}).then((postagens) => {
         res.render('./admin/postagens', {postagens: postagens.map(postagens => postagens.toJSON())})
     }).catch((error) => {
         console.log('houve um erro ao listar as categorias ' + erro)
@@ -178,6 +209,7 @@ router.post("/postagens/edit",eAdmin,(req,res)=>{
         postagem.Slug  = req.body.slug
         postagem.Descricao  = req.body.descricao
         postagem.Conteudo  = req.body.conteudo
+        postagem.Raridade  = req.body.raridade
         postagem.Categoria  = req.body.categoria
         postagem.save().then(()=>{
             req.flash("success_msg", "Postagem Editada com Sucesso")
@@ -207,7 +239,12 @@ router.get('/postagens/add',eAdmin,(req,res)=>{
 
 
     Categoria.find().lean().then((categorias)=>{
-        res.render("admin/addpostagem",{categorias: categorias})
+        Raridade.find().lean().then((raridade)=>{
+            res.render("admin/addpostagem",{categorias: categorias , raridade:raridade})
+        }).catch((err)=>{
+            req.flash("error_msg", "Houve um erro ao carregar o Formulário")
+            res.redirect("/admin/postagens")
+        })
     }).catch((err)=>{
         req.flash("error_msg", "Houve um erro ao carregar o Formulário")
         res.redirect("/admin/postagens")
@@ -227,6 +264,7 @@ router.post("/postagens/nova",eAdmin,(req,res)=>{
             Slug:req.body.slug,
             Descricao: req.body.descricao,
             Conteudo: req.body.conteudo,
+            Raridade: req.body.raridade,
             Categoria: req.body.categoria   
         }
         new Postagens(nova_postagem).save().then(()=>{  

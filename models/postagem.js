@@ -18,6 +18,11 @@ const Postagem = new Schema({
         type: String ,
         required: true 
     },
+    Raridade: {
+        type: Schema.Types.ObjectId,
+        ref:"raridade",
+        required: true
+    },
     Categoria:{
         type: Schema.Types.ObjectId,
         ref: "categorias",

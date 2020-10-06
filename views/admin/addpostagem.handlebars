@@ -13,6 +13,14 @@
                 <input type="text" name="slug" id="slug" class="form-control" required>
             <label for="descricao">Descrição:</label>
                 <input type="text" name="descricao" id="descricao" class="form-control" required>
+            <label for="raridade">Raridade:</label>
+                <select name="raridade" id="raridade" class="form-control">
+                    {{#each raridade}}
+                        <option value="{{_id}}"> {{Nome}}</option>
+                    {{else}}
+                        <option value="0"> Nenhuma Categoria Registrada</option>
+                    {{/each}}
+                </select>
             <label for="conteudo">Conteúdo:</label>
                 <textarea name="conteudo" id="conteudo" class="form-control" required></textarea>
             <label for="categoria"> Categoria:</label>
