@@ -2,7 +2,7 @@ const mogoose = require('mongoose')
 const Schema = mogoose.Schema;
 
 const Raridades = new Schema({
-    Nome: {
+    Nome:{
         type: String,
         required: true
     },
