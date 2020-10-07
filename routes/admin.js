@@ -232,12 +232,16 @@ router.get("/postagens/addimg/:id",eAdmin,(req,res)=>{
 router.get("/postagens/edit/:id",eAdmin,(req,res)=>{
     Postagens.findOne({_id:req.params.id}).lean().then((postagens)=>{
         Categoria.find().lean().then((categoria)=>{
-            res.render('admin/editpostagens', {categoria:categoria,postagens:postagens})
+            Raridade.find().lean().then((raridade)=>{
+                res.render('admin/editpostagens', {categoria:categoria,raridade:raridade,postagens:postagens})
+            }).catch((err) =>{
+                req.flash("error_msg","erro ao carregar dados da postagem")
+                res.redirect("/admin/postagens")
+           })   
         }).catch((err) =>{
             req.flash("error_msg","erro ao carregar dados da postagem")
             res.redirect("/admin/postagens")
        })
-        
     }).catch((err) =>{
          req.flash("error_msg","Esta postagem não existe")
          res.redirect("/admin/postagens")
