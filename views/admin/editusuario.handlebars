@@ -11,7 +11,10 @@
             <label for="nome">Nome: </label>
                 <input type="text" id="nome" name="nome" placeholder="Nome da Categoria" class="form-control" value="{{usuario.Nome}}" required>
             <label for="admin">Admin:</label>
-                <select name="" id=""></select>
+                <select name="admin" id="admin" class="form-control">
+                    <option value="false">Não</option>
+                    <option value="true">Sim</option>
+                </select>
             <br>
             <button type="submit" class="btn btn-outline-primary mt-2">Editar Usuario</button>
         </form>

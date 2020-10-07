@@ -9,11 +9,7 @@
         <form action="/admin/raridade/edit" method="POST">
         <input type="hidden" name="id" value="{{raridade._id}}">
             <label for="nome">Nome: </label>
-                <input type="text" id="nome" name="nome" placeholder="Nome da Categoria" class="form-control" value="{{raridade.Nome}}" required>
-            <select name="admin" id="admin">
-                <option value="false">Não</option>
-                <option value="true">Sim</option>
-            </select>
+                <input type="text" id="nome" name="nome" class="form-control" value="{{raridade.Nome}}" required>
             <br>
             <button type="submit" class="btn btn-outline-primary mt-2">Editar Raridade</button>
         </form>

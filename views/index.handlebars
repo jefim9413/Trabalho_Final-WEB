@@ -1,15 +1,20 @@
   <div class="jumbotron">
   {{#each user}}
         {{#if Nome}}    
-            <h1 class="display-4">Olá, {{Nome}}</h1>
+            <h1 class="display-4">Bem Vindo, {{Nome}}</h1>
         {{else}}
         {{/if}}
     {{else}}
-        <h1 class="display-4">Olá</h1>
-    {{/each}}<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <h1 class="display-4">Bem Vindo</h1>
+    {{/each}}
+  <p class="lead">Os Brawlers são as verdadeiras Estrelas de Brawl Stars.</p>
   <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+  <p>Brawl Stars é um mobile freemium multiplayer de batalha/shoot 'em up desenvolvido e publicado pela Supercell. Brawl Stars pode ser jogado com amigos para se divertir, ou para entrar em um mundo competitivo dos E-Sports.</p>
+  {{#if user}}
+  {{else}}
+    <a class="btn btn-outline-primary btn-lg mt-2" href="/usuarios/registro" role="button">Criar Conta</a>  
+  {{/if}}
+  
 </div>
 {{#each postagens}}
 <hr>

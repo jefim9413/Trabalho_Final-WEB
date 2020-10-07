@@ -172,6 +172,25 @@ router.get("/usuario/edit/:id",eAdmin,(req,res)=>{
     })
 })
 
+
+router.post("/usuario/edit",eAdmin,(req,res)=>{
+    Usuarios.findOne({_id:req.body.id}).then((usuario) =>{
+        usuario.Nome = req.body.nome
+        usuario.eAdmin = req.body.admin
+
+        usuario.save().then(()=>{
+            req.flash("success_msg", "Usuario Editado com Sucesso")
+            res.redirect("/admin/usuario")
+        }).catch((err) =>{
+            req.flash("error_msg","Houve um Erro ao salvar a Edição de Usuario !")
+            res.redirect("/admin/usuario")
+        })
+    }).catch((err) =>{
+        req.flash("error_msg","Houve um Erro ao Editar o Usuario!")
+        res.redirect("/admin/usuario")
+    })
+})
+
 router.post('/categoria/edit',eAdmin,(req,res)=>{
     Categoria.findOne({_id:req.body.id}).then((categoria) =>{
         var slug = req.body.slug
