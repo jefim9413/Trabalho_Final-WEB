@@ -79,7 +79,6 @@ router.post("/registro", (req,res)=>{
                              eAdmin: true,
                              Senha: req.body.senha
                          })
-                         console.log(novoUsuario.eAdmin)
                          bcrypt.genSalt(10,(erro,salt)=>{
                              bcrypt.hash(novoUsuario.Senha,salt,(erro,hash)=>{
                                  if(erro){
@@ -104,16 +103,10 @@ router.post("/registro", (req,res)=>{
                 })
 
             }
-
-
-
         }).catch((err)=>{
             req.flash("error_msg","Houve Um erro Interno")
             res.redirect("/")
-        })
-            
-
-        
+        })        
     }
 })
 
