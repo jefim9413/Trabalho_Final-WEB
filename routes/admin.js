@@ -5,6 +5,8 @@ require("../models/categoria")
 const Categoria = mongoose.model("categorias")
 require("../models/postagem")
 const Postagens = mongoose.model("postagens") 
+require("../models/usuario")
+const Usuarios = mongoose.model("usuarios")
 require("../models/raridade")
 const Raridade = mongoose.model("raridade")
 const {eAdmin} = require("../config/eAdmin")
@@ -102,6 +104,16 @@ router.get('/categoria',eAdmin, (req, res) => {
         res.redirect('/admin')
     })
 })
+
+router.get("/usuario",eAdmin,(req,res)=>{
+    Usuarios.find().sort({Data: 'desc'}).then((usuario) => {
+        res.render('./admin/usuario', {usuario: usuario.map(Usuarios => Usuarios.toJSON())})
+    }).catch((error) => {
+        console.log('houve um erro ao listar os Usuario ' + erro)
+        res.redirect('/admin')
+    })
+})
+
 router.post("/categorias/nova",eAdmin,(req,res)=>{
 
     var erros = []
@@ -151,6 +163,15 @@ router.get("/raridade/edit/:id",eAdmin,(req,res)=>{
     })
 })
 
+router.get("/usuario/edit/:id",eAdmin,(req,res)=>{
+    Usuarios.findOne({_id:req.params.id}).lean().then((usuario)=>{
+        res.render('admin/editusuario', {usuario:usuario})
+    }).catch((err) =>{
+         req.flash("error_msg","Este Usuario não existe")
+         res.redirect("/admin/usuario")
+    })
+})
+
 router.post('/categoria/edit',eAdmin,(req,res)=>{
     Categoria.findOne({_id:req.body.id}).then((categoria) =>{
         var slug = req.body.slug
@@ -173,7 +194,7 @@ router.post('/categoria/edit',eAdmin,(req,res)=>{
 
 router.post("/raridade/edit",eAdmin,(req,res)=>{
     Raridade.findOne({_id:req.body.id}).then((raridade) =>{
-        raridade.Nome = nome
+        raridade.Nome = req.body.nome
 
         raridade.save().then(()=>{
             req.flash("success_msg", "Raridade Editada com Sucesso")
