@@ -91,6 +91,9 @@ router.post("/raridade/nova",eAdmin,(req,res)=>{
     })
 })
 
+
+
+
 router.get('/categoria',eAdmin, (req, res) => {
     Categoria.find().sort({Data: 'desc'}).then((categoria) => {
         res.render('./admin/categorias', {categorias: categoria.map(Categoria => Categoria.toJSON())})
@@ -139,6 +142,15 @@ router.get('/categoria/edit/:id',eAdmin,(req,res) =>{
     })
 })
 
+router.get("/raridade/edit/:id",eAdmin,(req,res)=>{
+    Raridade.findOne({_id:req.params.id}).lean().then((raridade)=>{
+        res.render('admin/editraridade', {raridade:raridade})
+    }).catch((err) =>{
+         req.flash("error_msg","Está Raridade não existe")
+         res.redirect("/admin/raridade")
+    })
+})
+
 router.post('/categoria/edit',eAdmin,(req,res)=>{
     Categoria.findOne({_id:req.body.id}).then((categoria) =>{
         var slug = req.body.slug
@@ -159,6 +171,24 @@ router.post('/categoria/edit',eAdmin,(req,res)=>{
     })
 })
 
+router.post("/raridade/edit",eAdmin,(req,res)=>{
+    Raridade.findOne({_id:req.body.id}).then((raridade) =>{
+        raridade.Nome = nome
+
+        raridade.save().then(()=>{
+            req.flash("success_msg", "Raridade Editada com Sucesso")
+            res.redirect("/admin/raridade")
+        }).catch((err) =>{
+            req.flash("error_msg","Houve um Erro ao salvar a Edição da Raridade !")
+            res.redirect("/admin/raridade")
+        })
+    }).catch((err) =>{
+        req.flash("error_msg","Houve um Erro ao Editar a Raridade!")
+        res.redirect("/admin/raridade")
+    })
+})
+
+
 router.post('/categoria/delete',eAdmin,(req,res)=>{
     Categoria.deleteOne({_id:req.body.id}).then(() =>{
         req.flash("success_msg","Categoria Deletada Com Sucesso")
@@ -166,6 +196,17 @@ router.post('/categoria/delete',eAdmin,(req,res)=>{
     }).catch((err)=>{
         req.flash("error_msg","Erro Ao Deletar Categoria")
         res.redirect("/admin/categoria")
+
+    })
+})
+
+router.post("/raridade/delete",eAdmin,(req,res)=>{
+    Raridade.deleteOne({_id:req.body.id}).then(() =>{
+        req.flash("success_msg","Raridade Deletada Com Sucesso")
+        res.redirect("/admin/raridade")
+    }).catch((err)=>{
+        req.flash("error_msg","Erro Ao Deletar Raridade")
+        res.redirect("/admin/raridade")
 
     })
 })
