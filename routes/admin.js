@@ -145,7 +145,7 @@ router.post("/categorias/nova",eAdmin,(req,res)=>{
 
 })
 
-router.get('/categoria/edit/:id',eAdmin,(req,res) =>{
+router.get('/categoria/edit/:id',eAdmin,(req,res)=>{
     Categoria.findOne({_id:req.params.id}).lean().then((categoria)=>{
         res.render('admin/editcategoria', {categoria:categoria})
     }).catch((err) =>{
