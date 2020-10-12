@@ -147,7 +147,7 @@ router.post("/categorias/nova",eAdmin,(req,res)=>{
 
 router.get("/categoria/edit/:id",eAdmin,(req,res)=>{
     Categoria.findOne({_id:req.params.id}).lean().then((categoria)=>{
-        res.render('admin/editcategoria',{categoria:categoria})
+        res.render('admin/editCategoria',{categoria:categoria})
     }).catch((err) =>{
          req.flash("error_msg","Está Categoria não existe")
          res.redirect("/admin/categoria")
